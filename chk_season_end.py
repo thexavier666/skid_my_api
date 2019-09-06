@@ -32,10 +32,10 @@ def main():
 
 	if os.environ.get('APP_LOCATION') == 'heroku':
 		print("At heroku")
-		bottle.run(host = "0.0.0.0", port = int(os.environ.get("PORT", 5000)))
+		bottle.run(host = "0.0.0.0", port = int(os.environ.get("PORT", 10000)))
 	else:
 		print("At localhost")
-		bottle.run(host = "localhost", port = 8080, debug = True)
+		bottle.run(host = "0.0.0.0", port = 10000, debug = True)
 
 if __name__ == '__main__':
 	main()
