@@ -27,7 +27,11 @@ def get_season_status():
 	
 	return resp_dict
 
+def show_default_page():
+    return "YES, THIS PAGE WORKS TOO, UNLIKE CHEETAH :P\n\n--xavier666"        
+
 def main():
+	bottle.route("/", method='GET')(show_default_page)
 	bottle.route("/season_status", method='GET')(get_season_status)
 	
 	bottle.run(host = "0.0.0.0", port = int(os.environ.get("PORT", 10000)), debug = False)
