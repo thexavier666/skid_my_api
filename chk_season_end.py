@@ -29,13 +29,8 @@ def get_season_status():
 
 def main():
 	bottle.route("/season_status", method='GET')(get_season_status)
-
-	if os.environ.get('APP_LOCATION') == 'heroku':
-		print("At heroku")
-		bottle.run(host = "0.0.0.0", port = int(os.environ.get("PORT", 10000)))
-	else:
-		print("At localhost")
-		bottle.run(host = "0.0.0.0", port = int(os.environ.get("PORT", 10000)), debug = True)
+	
+	bottle.run(host = "0.0.0.0", port = int(os.environ.get("PORT", 10000)), debug = False)
 
 if __name__ == '__main__':
 	main()
