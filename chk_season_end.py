@@ -34,7 +34,8 @@ def main():
 		print("At heroku")
 		bottle.run(host = "0.0.0.0", port = int(os.environ.get("PORT", 5000)))
 	else:
-		bottle.run(host = "localhost", port = 8888, debug = True)
+		print("At localhost")
+		bottle.run(host = "localhost", port = 8080, debug = True)
 
 if __name__ == '__main__':
 	main()
