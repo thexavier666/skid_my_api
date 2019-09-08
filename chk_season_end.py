@@ -8,9 +8,9 @@ import bottle
 
 from datetime import datetime
 
-def get_season_status():
+def get_season_status(rank_fetch=1):
     
-    url_str = 'http://api.skidstorm.cmcm.com/v2/rank/list/1-1/ALL'
+    url_str = 'http://api.skidstorm.cmcm.com/v2/rank/list/{0}-{0}/ALL'.format(rank_fetch)
     rank_threshold = 11000
     
     p = requests.get(url_str)
@@ -21,6 +21,7 @@ def get_season_status():
     resp_dict['fetch_time'] = str(datetime.now())
     resp_dict['rank_value'] = q["ranks"][0]["rank"]
     resp_dict['username']   = q["ranks"][0]["username"]
+    resp_dict['position']   = rank_fetch 
     
     if resp_dict['rank_value'] > rank_threshold:
         resp_dict['season_reset'] = False
@@ -43,7 +44,7 @@ def web_season_status():
             Timezone : {}
         </body>
     </html>
-    '''.format(resp_dict['season_reset'], resp_dict['rank_value'], resp_dict['username'], 1, resp_dict['fetch_time'], time.tzname[1])
+    '''.format(resp_dict['season_reset'], resp_dict['rank_value'], resp_dict['username'], resp_dict['position'], resp_dict['fetch_time'], time.tzname[1])
 
     return web_page_str
 
@@ -60,6 +61,8 @@ def show_default_page():
 def main():
     bottle.route("/", method='GET')(show_default_page)
     bottle.route("/season_status", method='GET')(web_season_status)
+    bottle.route("/api/season_status", method='GET')(get_season_status)
+    bottle.route("/api/season_status/<rank_fetch>", method='GET')(get_season_status)
     
     bottle.run(host = "0.0.0.0", port = int(os.environ.get("PORT", 10000)), debug = False)
 
